@@ -30,7 +30,11 @@
 ## M2. 수집 파이프라인
 
 - ✅ 위비티 `robots.txt`·이용약관 확인 → **크롤링 포기, 원출처 중심으로 전환** ([T-003](claude-docs/troubleshooting/T-003.md))
-- 🔜 AI Gateway의 웹검색 도구 노출 형태 확인 ⚠️ **주력 소스가 여기 걸려 있어 M2에서 제일 먼저**
+- ✅ AI Gateway 웹검색 도구 형태 확정 — `gateway.tools.perplexitySearch()` + `generateText` + `Output.object`
+- 🔜 LLM 검색 실측 — ⏸ **AI Gateway 카드 등록 대기 중**
+  - 인증(OIDC)은 통과하고 모델 목록 조회도 되는데 추론만 403 ([T-004](claude-docs/troubleshooting/T-004.md))
+  - 등록 URL: https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%3Fmodal%3Dadd-credit-card
+  - 등록 후: `node --env-file=.env.local scripts/probe-search.mts` — 환각률과 한국 공모전 커버리지를 눈으로 확인
 - ⬜ 분야 태그 초기 집합 정하기 — 애그리게이터 카테고리를 쓰려던 계획이 없어져 직접 정해야 한다
 - ⬜ `Source` 인터페이스 + `normalize()` — 날짜 파싱·분야 태그 매핑, 테스트 먼저
 - ⬜ `verify()` — fetch 주입형, URL 생존 + 본문 내 마감일 실재 확인, 테스트 먼저 ⚠️ LLM이 주력이라 중요도가 올라갔다
