@@ -1,0 +1,8 @@
+* text=auto
+
+# 셸 훅이 CRLF로 풀리면 셔뱅이 `#!/bin/sh\r`가 되어 훅이 통째로 죽는다
+*.sh text eol=lf
+.githooks/** text eol=lf
+
+# PowerShell 5.1은 BOM 없는 UTF-8을 CP949로 읽어 한글이 깨진다 — BOM·EOL 원본 보존
+*.ps1 -text

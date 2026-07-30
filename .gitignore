@@ -1,0 +1,17 @@
+# 한글 커밋 메시지용 임시 파일 (PowerShell 5.1 인라인 -m 인코딩 회피)
+.commit-msg-tmp
+
+node_modules/
+.next/
+out/
+build/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+
+.env
+.env*.local
+
+.DS_Store
+*.log
+npm-debug.log*
