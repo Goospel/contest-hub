@@ -22,6 +22,7 @@
      각 항목의 frontmatter(summary)에서 재생성합니다. 내용을 바꾸려면 그 항목의
      summary를 고치세요(단일 출처). 최신 항목이 위. -->
 
+- [T-005](troubleshooting/T-005.md) · 돌연변이 테스트에서 치환이 소스의 일부에만 걸리면 돌연변이가 약해져 거짓 생존이 난다 — 테스트 갭으로 오진하기 전에 치환이 전부 적용됐는지 확인한다
 - [T-004](troubleshooting/T-004.md) · AI Gateway는 OIDC 인증이 통과하고 모델 목록 조회까지 되면서도 카드가 없으면 추론 호출만 403으로 막힌다 — 인증 문제로 오진하기 쉽다
 - [T-003](troubleshooting/T-003.md) · robots.txt 가 Allow 라고 크롤링해도 되는 게 아니다 — 이용약관과 저작권법상 데이터베이스제작자 권리를 따로 봐야 하고, 애그리게이터 복제는 이 둘에 걸린다
 - [T-002](troubleshooting/T-002.md) · npm audit fix --force 는 이 프로젝트에서 next 를 16 → 9.3.3 으로 다운그레이드하려 든다 — 남은 postcss·sharp·esbuild 경고는 고칠 수 없는 것이므로 절대 돌리지 않는다
