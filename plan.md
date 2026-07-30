@@ -12,9 +12,10 @@
 
 - ✅ 설계 문서 작성
 - ✅ 작업 추적 3종 + troubleshooting 분할 시스템 배치
-- 🔜 Next.js 16 + TypeScript + Tailwind 스캐폴드
-- ⬜ Vercel 프로젝트 링크, Neon Postgres 마켓플레이스 연동
-- ⚠️ Vercel CLI 미설치 (`npm i -g vercel`) — 링크·env pull 단계에서 필요
+- ✅ Next.js 16 + TypeScript + Tailwind 스캐폴드 (빌드 통과)
+- 🔜 Vercel 프로젝트 링크, Neon Postgres 마켓플레이스 연동
+- ⚠️ Vercel CLI 미설치 (`npm i -g vercel`) — 링크·env pull 단계에서 필요. 이것 때문에 M0가 여기서 멈춰 있다
+- ⚠️ `npm audit fix --force` 금지 — Next를 9.3.3으로 되돌리려 든다 ([T-002](claude-docs/troubleshooting/T-002.md))
 
 ## M1. 데이터 계층
 
