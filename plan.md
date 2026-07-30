@@ -35,7 +35,7 @@
   - 인증(OIDC)은 통과하고 모델 목록 조회도 되는데 추론만 403 ([T-004](claude-docs/troubleshooting/T-004.md))
   - 등록 URL: https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%3Fmodal%3Dadd-credit-card
   - 등록 후: `node --env-file=.env.local scripts/probe-search.mts` — 환각률과 한국 공모전 커버리지를 눈으로 확인
-- ⬜ 분야 태그 초기 집합 정하기 — 애그리게이터 카테고리를 쓰려던 계획이 없어져 직접 정해야 한다
+- ✅ 분야 태그 12종 + 매핑 — TDD 20건, 돌연변이 7종 전부 사살 (`lib/categories.ts`)
 - ✅ `verify()` — fetch 주입형, TDD 19건 + 돌연변이 7종 전부 사살 (`lib/verify.ts`)
 - ⬜ `Source` 인터페이스 + `normalize()` — 날짜 파싱·분야 태그 매핑, 테스트 먼저
 - ⬜ LLM 검색 소스 — AI SDK v6 + AI Gateway, 매일 질의 5개
