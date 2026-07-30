@@ -2,7 +2,9 @@
 
 인터넷에 흩어진 공모전을 자동으로 모아 한곳에서 보여주는 공개 웹사이트.
 
-위비티 크롤링으로 볼륨을 채우고, LLM 웹검색으로 인스타·기업 자체 페이지에만 올라오는 롱테일을 보탠다. LLM이 찾아온 건은 원문 URL 검증을 통과해야만 공개된다.
+**주최 측 원출처에서만 모은다.** LLM 웹검색이 공고를 찾아오고, 찾아온 건은 원문 URL 생존과 마감일 실재 확인을 통과해야만 공개된다. 검색에 반복 등장하는 도메인은 전용 소스로 승격시켜 전량 수집한다 — 처음엔 얇고 쓸수록 두꺼워지는 구조다.
+
+공모전 애그리게이터를 긁는 방식은 이용약관과 저작권법상 데이터베이스제작자 권리 때문에 폐기했다 ([T-003](claude-docs/troubleshooting/T-003.md)).
 
 ## 문서
 
@@ -15,7 +17,7 @@
 
 ## 스택
 
-Next.js 16 App Router · TypeScript · Tailwind · Neon Postgres + Drizzle · Vercel (Cron 포함) · cheerio · AI SDK v6
+Next.js 16 App Router · TypeScript · Tailwind · Neon Postgres + Drizzle · Vercel (Cron 포함) · AI SDK v6 + AI Gateway · cheerio(승격 소스용)
 
 ## 개발
 
