@@ -22,6 +22,7 @@
      각 항목의 frontmatter(summary)에서 재생성합니다. 내용을 바꾸려면 그 항목의
      summary를 고치세요(단일 출처). 최신 항목이 위. -->
 
+- [T-003](troubleshooting/T-003.md) · robots.txt 가 Allow 라고 크롤링해도 되는 게 아니다 — 이용약관과 저작권법상 데이터베이스제작자 권리를 따로 봐야 하고, 애그리게이터 복제는 이 둘에 걸린다
 - [T-002](troubleshooting/T-002.md) · npm audit fix --force 는 이 프로젝트에서 next 를 16 → 9.3.3 으로 다운그레이드하려 든다 — 남은 postcss·sharp·esbuild 경고는 고칠 수 없는 것이므로 절대 돌리지 않는다
 - [T-001](troubleshooting/T-001.md) · troubleshooting 분할 시스템을 갓 배치한 새 프로젝트는 항목이 0개라 pre-commit이 첫 커밋 자체를 거부한다 — 부트스트랩 때 항목 하나를 같이 만든다
 
