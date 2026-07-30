@@ -13,14 +13,18 @@
 - ✅ 설계 문서 작성
 - ✅ 작업 추적 3종 + troubleshooting 분할 시스템 배치
 - ✅ Next.js 16 + TypeScript + Tailwind 스캐폴드 (빌드 통과)
-- 🔜 Vercel 프로젝트 링크, Neon Postgres 마켓플레이스 연동
-- ⚠️ Vercel CLI 미설치 (`npm i -g vercel`) — 링크·env pull 단계에서 필요. 이것 때문에 M0가 여기서 멈춰 있다
+- ✅ Vercel CLI 설치 + 프로젝트 링크 (`goospel/contest-hub`, GitHub 저장소 자동 연결)
+- 🔜 Neon Postgres 마켓플레이스 연동 — ⏸ **사용자의 약관 동의 대기 중**
+  - `vercel integration add neon` 이 `integration_terms_acceptance_required` 로 멈춘다
+  - 수락 URL: https://vercel.com/goospel/~/integrations/accept-terms/neon?source=cli
+  - 수락 후: `vercel integration add neon --scope goospel` → `vercel env pull .env.local`
 - ⚠️ `npm audit fix --force` 금지 — Next를 9.3.3으로 되돌리려 든다 ([T-002](claude-docs/troubleshooting/T-002.md))
 
 ## M1. 데이터 계층
 
-- ⬜ Drizzle 스키마 `contests` 정의 + 마이그레이션
-- ⬜ `dedupe_key` 생성 함수 — **테스트 먼저** (제목 정규화: 공백·특수문자·괄호 제거 후 소문자 + 마감일)
+- ✅ Drizzle 스키마 `contests` 정의 + 마이그레이션 SQL 생성 (`db/migrations/0000_wealthy_korg.sql`)
+- ✅ `dedupe_key` 생성 함수 — TDD, 7건 통과 (`lib/normalize.ts`)
+- 🔜 마이그레이션 실제 적용 — Neon 연동 후
 - ⬜ upsert 로직 — 충돌 시 크롤러 소스가 LLM 소스를 이기는 규칙 포함, 테스트 먼저
 
 ## M2. 수집 파이프라인

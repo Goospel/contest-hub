@@ -5,12 +5,13 @@ node_modules/
 .next/
 out/
 build/
-.vercel/
 *.tsbuildinfo
 next-env.d.ts
 
-.env
-.env*.local
+.vercel
+.env*
+# 템플릿은 값이 없으므로 추적한다 (`.env*` 가 삼키지 않도록 예외)
+!.env.example
 
 .DS_Store
 *.log
