@@ -73,7 +73,7 @@ LLM 웹검색 (발견자)
 | DB | Neon Postgres (Vercel 마켓플레이스) | 마켓플레이스 연동이라 환경변수 설정이 자동 |
 | DB 접근 | Drizzle ORM | 스키마·타입·마이그레이션이 파일 하나로 묶인다 |
 | 스타일 | Tailwind | 목록/필터 화면에 컴포넌트 라이브러리까지는 불필요 |
-| LLM 검색 | AI SDK v6 + Vercel AI Gateway | 프로바이더 문자열만으로 모델 교체 가능 |
+| LLM 검색 | AI SDK v7 + Vercel AI Gateway | 프로바이더 문자열만으로 모델 교체 가능 |
 | HTML 파싱 | cheerio | 승격된 도메인의 공고 목록을 읽을 때 |
 
 ## 데이터 모델
@@ -136,6 +136,31 @@ interface Source {
 }
 ```
 
+### LLM 검색 소스 — 확정된 형태
+
+프로브로 실측해 확정했다 (`scripts/probe-gateway.mts`, `scripts/probe-search.mts`).
+
+AI Gateway는 웹검색을 두 갈래로 제공한다.
+
+- **프로바이더 무관** — `gateway.tools.perplexitySearch()` / `exaSearch()` / `parallelSearch()`. 어떤 모델과도 조합된다. 요금은 게이트웨이가 청구한다 (Perplexity·Parallel $5, Exa $7 / 1,000 요청)
+- **프로바이더 전용** — `anthropic.tools.webSearch_20250305()` 등. 해당 프로바이더 모델에서만 동작한다
+
+**프로바이더 무관 쪽을 쓴다.** 모델을 바꿔도 검색이 따라오지 않아야 하고, `perplexitySearch` 는 `country`·`searchLanguageFilter`·`searchDomainFilter` 를 지원해 한국어 공고로 좁히기 좋다.
+
+구조화 출력은 `generateObject` 가 아니라 **`generateText` + `output: Output.object({schema})`** 로 받는다. `generateObject` 는 도구 호출과 함께 쓸 수 없다. 구조화 출력 생성이 스텝 하나를 더 먹으므로 `stopWhen: isStepCount(N)` 에 검색 스텝 + 1 이상을 준다.
+
+```ts
+const { output } = await generateText({
+  model: "anthropic/claude-sonnet-5",
+  tools: { web_search: gateway.tools.perplexitySearch({ maxResults: 10 }) },
+  output: Output.object({ schema }),
+  stopWhen: isStepCount(6),
+  prompt: /* ... */,
+})
+```
+
+⚠️ **AI Gateway는 카드 등록 없이는 추론 호출이 403이다.** 인증(OIDC)과 결제 자격을 따로 검사해서, 모델 목록 조회는 되면서 추론만 막힌다 ([T-004](../../../claude-docs/troubleshooting/T-004.md)).
+
 ### verify() — 환각 방어
 
 LLM 검색이 주력이 되면서 이 단계의 중요도가 올라갔다. LLM이 찾아온 건은 다음을 모두 통과해야 `published` 가 된다.
@@ -185,6 +210,7 @@ UI는 테스트하지 않는다. 목록 렌더링에 회귀 테스트를 붙일 
 
 ## 열린 질문
 
-- Vercel AI Gateway가 웹검색 도구를 어떤 형태로 노출하는지는 구현 시점에 문서로 확인한다. 지원 형태에 따라 프로바이더 직결로 바뀔 수 있다. **주력 소스가 여기 걸려 있으므로 M2에서 가장 먼저 확인한다.**
+- ~~Vercel AI Gateway가 웹검색 도구를 어떤 형태로 노출하는지~~ → **해소.** 위 「LLM 검색 소스 — 확정된 형태」 참조
+- **LLM 검색이 실제로 쓸 만한 공모전을 찾아오는지는 아직 미검증이다.** 카드 등록 후 `scripts/probe-search.mts` 를 돌려 ① 검색 도구가 실제 호출되는지 ② 돌아온 `sourceUrl` 이 실재하는지(환각률) ③ 한국 공모전을 제대로 찾는지를 확인해야 한다. 결과가 나쁘면 검색 도구를 `exaSearch`·`parallelSearch` 로 바꿔 비교한다
 - 분야 태그 목록의 초기 집합. 애그리게이터 카테고리를 그대로 쓰려던 계획이 없어졌으므로 직접 정해야 한다. LLM 산출물을 그 목록에 매핑한다.
 - 한국콘텐츠진흥원 지원사업공고 API가 실제로 쓸 만한지는 M2에서 확인한다.
