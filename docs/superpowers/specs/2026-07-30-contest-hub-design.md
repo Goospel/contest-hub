@@ -35,7 +35,7 @@
 contests
   id            serial primary key
   source        text      -- 'wevity' | 'llm-search'
-  source_url    text unique not null
+  source_url    text not null
   title         text not null
   organizer     text
   category      text[]    -- 정규화된 분야 태그
@@ -53,6 +53,8 @@ contests
 ```
 
 **`dedupe_key`**: 제목에서 공백·특수문자·괄호를 제거하고 소문자화한 값 + `deadline`. 같은 공모전이 두 소스에서 들어와도 한 행으로 합쳐진다.
+
+**unique 제약은 `dedupe_key` 하나만 건다.** `source_url` 에도 unique를 걸면 같은 공모전을 크롤러와 LLM이 서로 다른 URL로 가져왔을 때 upsert가 깨진다 — `dedupe_key` 로 기존 행을 찾아 `source_url` 을 덮어쓰려는 순간 그 URL이 다른 행에 이미 있으면 제약 위반이 난다. 동일성의 단일 출처는 `dedupe_key` 다.
 
 **`status`**
 - `published` — 공개. 크롤러 산출물은 기본적으로 여기.
@@ -103,7 +105,7 @@ LLM이 찾아온 건은 다음을 모두 통과해야 `published`가 된다.
 `/api/cron/ingest` 를 Vercel Cron으로 **하루 1회**.
 
 - 위비티 크롤러: 매일 전량 순회
-- LLM 검색: 매일 1배치 (질의 몇 개)만 — 비용 때문
+- LLM 검색: 매일 질의 **5개**. 질의문은 코드에 상수로 두고 손으로 조정한다 (예: "2026년 대학생 공모전 모집", "기업 디자인 공모전 접수중"). 비용이 여기서 결정되므로 자동 확장하지 않는다
 - 같은 잡에서 `deadline < 오늘` 인 건을 `expired` 처리
 
 ### 크롤링 예의
